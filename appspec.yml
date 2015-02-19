@@ -1,0 +1,18 @@
+version: 0.1
+os: linux
+files:
+  - source: middleman_docker_image.tar.gz
+    destination: /tmp
+hooks:
+  ApplicationStop:
+    - location: docker rm -f middleman
+      timeout: 20
+      runas: ec2-user
+  AfterInstall:
+    - location: docker load -i /tmp/middleman_docker_image.tar.gz
+      timeout: 10
+      runas: ec2-user
+  ApplicationStart:
+    - location: docker run -d --name middleman middleman
+      timeout: 10
+      runas: ec2-user

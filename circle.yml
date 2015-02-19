@@ -1,0 +1,40 @@
+general:
+  artifacts:
+    - "images"
+
+machine:
+  services:
+    - docker
+
+dependencies:
+  cache_directories:
+    - ~/docker
+  override:
+    - docker info
+    - if [[ -e ~/docker/builder.tar ]]; then docker load --input ~/docker/builder.tar; fi
+    - docker build -t middleman-builder .
+    - docker run --name middleman-builder middleman-builder
+    - docker cp middleman-builer:/build.tar.gz ./images/nginx
+    - docker build -t middleman images/nginx
+    - docker save middleman | gzip -c > docker/middleman_docker_image.tar.gz
+    - mkdir -p ~/docker; docker save middleman-builder > ~/docker/builder.tar
+    - docker images
+
+test:
+  override:
+    - echo 'No tests :('
+
+deployment:
+  aws:
+    branch: master
+    codedeploy:
+      middleman:
+        application_root: /docker
+        revision_location:
+          revision_type: S3
+          s3_location:
+            bucket: andyshinn-middleman
+            key_pattern: middleman-{SHORT_COMMIT}-{BUILD_NUM}
+        region: us-west-2
+        deployment_group: middleman
+        deployment_config: CodeDeployDefault.OneAtATime
