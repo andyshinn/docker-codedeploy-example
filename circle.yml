@@ -14,7 +14,7 @@ dependencies:
     - if [[ -e ~/docker/builder.tar ]]; then docker load --input ~/docker/builder.tar; fi
     - docker build -t middleman-builder .
     - docker run --name middleman-builder middleman-builder
-    - docker cp middleman-builer:/build.tar.gz ./images/nginx
+    - docker cp middleman-builder:/build.tar.gz ./images/nginx
     - docker build -t middleman images/nginx
     - docker save middleman | gzip -c > docker/middleman_docker_image.tar.gz
     - mkdir -p ~/docker; docker save middleman-builder > ~/docker/builder.tar
