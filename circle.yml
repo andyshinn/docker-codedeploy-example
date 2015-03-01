@@ -1,6 +1,6 @@
 general:
   artifacts:
-    - images
+    - docker
 
 machine:
   services:
