@@ -40,6 +40,13 @@ Now lets move over to the CloudFormation console so we can create our `middleman
 
 Create the stack. Kewl.
 
+## Bucket
+
+Move over to the S3 console and create a bucket.
+
+* Click the blue *Create Bucket* button.
+* We are using the bucket named `andyshinn-middleman` in this example.
+
 ## Revision
 
 * Coming soon!
