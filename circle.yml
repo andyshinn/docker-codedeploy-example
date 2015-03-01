@@ -1,6 +1,6 @@
 general:
   artifacts:
-    - "images"
+    - images
 
 machine:
   services:
@@ -23,6 +23,10 @@ dependencies:
 test:
   override:
     - echo 'No tests :('
+
+compile:
+  override:
+    - echo 'Do not run bundle exec middleman build!'
 
 deployment:
   aws:
