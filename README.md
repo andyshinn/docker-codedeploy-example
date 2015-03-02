@@ -47,6 +47,14 @@ Move over to the S3 console and create a bucket.
 * Click the blue *Create Bucket* button.
 * We are using the bucket named `andyshinn-middleman` in this example.
 
-## Revision
+## Deploy
 
-* Coming soon!
+When you commit and push code to your repository the following will now happen:
+
+* Our Middleman application Docker image gets built.
+* We run the image to generate a Middleman site as `build.tar.gz`.
+* We then copie `build.tar.gz` out of the container and into `images/nginx`.
+* Now we build the `images/nginx` image as `middleman`.
+* We then export the `middleman` image as `middleman_docker_image.tar.gz`.
+* The CodeDeploy revision is kicked off and our application is pushed as a zip file to our S3 bucket.
+* A CodeDeploy deployment of this revision is run for our server group.
